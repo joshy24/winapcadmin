@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
+// helpers
+import CANDIDATES from "../Helpers/Candidate";
+
 const Candidates = () => {
   const [formData, setFormData] = useState({
     state: "",
@@ -11,9 +14,9 @@ const Candidates = () => {
   });
 
   const handleSubmit = (e) => {
+    setFormData({ isLoading: true });
     e.preventDefault();
-    // console.log(formData);
-    console.log('Hello');
+    console.log(formData);
   };
   return (
     <div>
@@ -42,38 +45,45 @@ const Candidates = () => {
               >
                 <thead>
                   <tr>
+                    <th style={{ width: 15 }}>S/N</th>
                     <th>Name</th>
                     <th>Position</th>
                     <th>State</th>
                     <th>LGA</th>
-                    <th>Action</th>
+                    <th className="text-center">Action</th>
                   </tr>
                 </thead>
                 <tfoot>
                   <tr>
+                    <th style={{ width: 15 }}>S/N</th>
                     <th>Name</th>
                     <th>Position</th>
                     <th>State</th>
                     <th>LGA</th>
-                    <th>Action</th>
+                    <th className="text-center">Action</th>
                   </tr>
                 </tfoot>
                 <tbody>
-                  <tr>
-                    <td>Tonye Greene</td>
-                    <td>Governor</td>
-                    <td>Lagos</td>
-                    <td> - </td>
-                    <td>
-                      <Link to="#" style={{ color: "green" }}>
-                        Edit
-                      </Link>
-                      |
-                      <Link to="#" style={{ color: "red" }}>
-                        Remove
-                      </Link>
-                    </td>
-                  </tr>
+                  {CANDIDATES.map((candidate, index) => (
+                    <tr key={candidate}>
+                      <td>{index + 1}</td>
+                      <td>{candidate.name}</td>
+                      <td>{candidate.position}</td>
+                      <td>{candidate.state}</td>
+                      <td> {candidate.lga} </td>
+                      <td className="text-center">
+                        <Link to="#" style={{ color: "green" }}>
+                          Edit
+                        </Link>
+                        <span style={{ marginLeft: 10, marginRight: 10 }}>
+                          |
+                        </span>
+                        <Link to="#" style={{ color: "red" }}>
+                          Remove
+                        </Link>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
@@ -91,22 +101,22 @@ const Candidates = () => {
         aria-hidden="true"
       >
         <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLongTitle">
-                Assign New Candidate
-              </h5>
-              <button
-                type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <form className="form" onSubmit={handleSubmit}>
+          <form className="form" onSubmit={handleSubmit}>
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">
+                  Assign New Candidate
+                </h5>
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
                 <div className="form-group">
                   <label> State</label>
                   <select
@@ -164,12 +174,20 @@ const Candidates = () => {
                     }
                   />
                 </div>
-              </form>
+              </div>
+              <div class="modal-footer">
+                <input
+                  type="submit"
+                  class="btn btn-success"
+                  value={
+                    !formData.isLoading
+                      ? "Assign Candidate"
+                      : "Assigning Candidate..."
+                  }
+                />
+              </div>
             </div>
-            <div class="modal-footer">
-              <input type="submit" class="btn btn-success"   value="Add Candidate" />
-            </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>

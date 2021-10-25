@@ -1,68 +1,87 @@
-import React from 'react'
+import React from "react";
+// import {useDispatch, useSelector} from "react-redux";
+
+
+// import {getDonations as listDonations} from '../Redux/Actions/donations'
+// helpers
+import DONATIONS from "../Helpers/donations";
 
 const Donations = () => {
-    return (
-        <div>
-          <div class="container-fluid">
-          <button
-          class="btn btn-primary mb-3 mt-2"
-          disabled
-        >
+  // const dispatch = useDispatch()
+
+  // const getDonations = useSelector((state) => state.getDonations);
+  // const {donations, loading, error} = getDonations;
+
+  // useEffect(() => {
+  //   dispatch(listDonations())
+
+  // }, [dispatch])
+
+  return (
+    <div>
+      <div class="container-fluid">
+        <button class="btn btn-primary mb-3 mt-2" disabled>
           Total money donated $75,000.00
         </button>
-            <h1 class="h3 mb-2 text-gray-800">Donations</h1>
-    
-            <div class="card shadow mb-4">
-              <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Donors List</h6>
-              </div>
-              <div class="card-body">
-                <div class="table-responsive">
-                  <table
-                    class="table table-bordered"
-                    id="dataTable"
-                    width="100%"
-                    cellspacing="0"
-                  >
-                    <thead>
-                      <tr>
-                      <th>Name</th>
-                        <th>Email</th>
-                        <th>Amount</th>
-                        <th>Date</th>
-                      </tr>
-                    </thead>
-                    <tfoot>
-                      <tr>
-                      <th>Name</th>
-                        <th>Email</th>
-                        <th>Amount</th>
-                        <th>Date</th>
-                      </tr>
-                    </tfoot>
-                    <tbody>
-                      <tr>
-                        <td>Tonye Greene</td>
-                        <td>ellys@gmail.com</td>
-                        <td>$50,000.00</td>
-                        <td>12/12/2021</td>
-                      </tr>
-                      <tr>
-                        <td>Anon</td>
-                        <td>Anon</td>
-                        <td>$23,000.00</td>
-                        <td>12/12/2021</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
+        <h1 class="h3 mb-2 text-gray-800">Donations</h1>
+
+        <div class="card shadow mb-4">
+          <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Donors List</h6>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table
+                class="table table-bordered"
+                id="dataTable"
+                width="100%"
+                cellspacing="0"
+              >
+                <thead>
+                  <tr>
+                    <th style={{ width: 15 }}></th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Donating to</th>
+                    <th>State</th>
+                    <th>LGA</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                  </tr>
+                </thead>
+                <tfoot>
+                  <tr>
+                    <th style={{ width: 15 }}></th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Donating to</th>
+                    <th>State</th>
+                    <th>LGA</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                  </tr>
+                </tfoot>
+                <tbody>
+                  {DONATIONS.map((donation, index) => (
+                    <tr key={donation.id}>
+                      <td>{index + 1}</td>
+                      <td>{donation.name}</td>
+                      <td>{donation.email}</td>
+                      <td>{donation.position}</td>
+                      <td>{donation.state}</td>
+                      <td>{!donation.lga ? "-" : donation.lga}</td>
+                      <td>{donation.amount.toLocaleString()}</td>
+                      <td>{donation.date}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
-    
-        
         </div>
-      );
-    };
+      </div>
+    </div>
+  );
+};
 
-export default Donations
+export default Donations;
