@@ -1,5 +1,6 @@
 import * as types from '../Types/candidates';
 
+
 export const getCandidatesReducer = (state = { candidates:[] }, action) => {
     const {type, payload} = action
 
