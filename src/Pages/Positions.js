@@ -1,7 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
+//helper
+import POSITIONS from "../Helpers/positions";
+
 const Positions = () => {
+  const [positions, setPositions] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    console.log(positions);
+  };
   return (
     <div>
       <div class="container-fluid">
@@ -29,25 +40,30 @@ const Positions = () => {
               >
                 <thead>
                   <tr>
+                  <th style={{ width: 15 }}>S/N</th>
                     <th>Position</th>
                     <th></th>
                   </tr>
                 </thead>
                 <tfoot>
                   <tr>
+                  <th style={{ width: 15 }}></th>
                     <th>Position</th>
-                    <th style={{width:15}}></th>
+                    <th style={{ width: 15 }}></th>
                   </tr>
                 </tfoot>
                 <tbody>
-                  <tr>
-                    <td>Governor</td>
-                    <td>
-                      <Link to="#" style={{ color: "red" }}>
-                        Remove
-                      </Link>
-                    </td>
-                  </tr>
+                  {POSITIONS.map((positions, index) => (
+                    <tr key={positions.id}>
+                      <td>{index + 1}</td>
+                      <td>{positions.position}</td>
+                      <td>
+                        <Link to="#" style={{ color: "red" }}>
+                          Remove
+                        </Link>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
@@ -65,38 +81,42 @@ const Positions = () => {
         aria-hidden="true"
       >
         <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLongTitle">
-                Add New Positions
-              </h5>
-              <button
-                type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <form className="form">
+          <form className="form" onSubmit={handleSubmit}>
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">
+                  Add New Positions
+                </h5>
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
                 <div className="form-group">
-                <label>Positions Name</label>
+                  <label>Positions Name</label>
                   <input
                     type="text"
                     placeholder="Positions Name"
                     className="form-control"
+                    value={positions}
+                    onChange={(e) => setPositions(e.target.value)}
                   />
                 </div>
-              </form>
+              </div>
+              <div class="modal-footer">
+                <input
+                  type="submit"
+                  class="btn btn-success"
+                  value={!isLoading ? "Add Position" : "Adding Position..."}
+                />
+              </div>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-success">
-                Add Positions
-              </button>
-            </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>

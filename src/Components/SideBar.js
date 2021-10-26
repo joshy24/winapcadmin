@@ -55,15 +55,6 @@ const SideBar = () => {
                     <i class="fas fa-fw fa-dollar-sign"></i>
                     <span>Donations</span></Link>
             </li>
-            <hr class="sidebar-divider" />
-
-
-            <li class="nav-item">
-                <Link class="nav-link" to="/">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Change Password</span></Link>
-            </li>
-
             <hr class="sidebar-divider d-none d-md-block" />
 
             <div class="text-center d-none d-md-inline">
