@@ -7,12 +7,12 @@ export const getPositionsReducer = (state = { positions:[] }, action) => {
         case types.GET_POSITIONS_REQUEST:
             return{
                 loading: true,
-                categories: []
+                positions: []
             }
         case types.GET_POSITIONS_SUCCESS:
             return {
                 loading: false,
-                categories: payload
+                positions: payload
             }
         case types.GET_POSITIONS_FAIL:
             return {

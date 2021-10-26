@@ -7,12 +7,12 @@ export const getCandidatesReducer = (state = { candidates:[] }, action) => {
         case types.GET_CANDIDATES_REQUEST:
             return{
                 loading: true,
-                categories: []
+                candidates: []
             }
         case types.GET_CANDIDATES_SUCCESS:
             return {
                 loading: false,
-                categories: payload
+                candidates: payload
             }
         case types.GET_CANDIDATES_FAIL:
             return {

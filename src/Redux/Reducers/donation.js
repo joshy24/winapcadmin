@@ -7,12 +7,12 @@ export const getDonationsReducer = (state = { candidates:[] }, action) => {
         case types.GET_DONATIONS_REQUEST:
             return{
                 loading: true,
-                categories: []
+                candidates: []
             }
         case types.GET_DONATIONS_SUCCESS:
             return {
                 loading: false,
-                categories: payload
+                candidates: payload
             }
         case types.GET_DONATIONS_FAIL:
             return {
