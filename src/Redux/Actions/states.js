@@ -5,7 +5,7 @@ export const getStates = () => async (dispatch) => {
     try {
         dispatch({ type: types.GET_STATES_REQUEST })
 
-        const { data } = await axios.get('#')
+        const { data } = await axios.get('https://win-apc.herokuapp.com/api/state')
         dispatch({
             type: types.GET_STATES_SUCCESS,
             payload: data

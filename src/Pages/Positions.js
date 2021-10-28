@@ -1,16 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { getPositions, createCandidate as listPosition } from "../Redux/Actions/positions";
 
-//helper
-import POSITIONS from "../Helpers/positions";
 
 const Positions = () => {
+
+  const dispatch = useDispatch();
+  const getPositions = useSelector((state) => state.getPositions);
+
+  const { positions, loading, error } = getPositions;
+
+
+  useEffect(() => {
+    dispatch(listPosition);
+  }, [dispatch]);
+
+  console.log(getPositions);
+
+
   const [positionsData, setPositionsData] = useState({
     position: "",
     isLoading: false,
     isError: false,
     isSuccess: false,
   });
+
+
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -36,7 +53,7 @@ const Positions = () => {
 
         <div class="card shadow mb-4">
           <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Positions List</h6>
+            <h6 class="m-0 font-weight-bold text-primary">{loading ? 'Loading list' : 'Positions List '} </h6>
           </div>
           <div class="card-body">
             <div class="table-responsive">
@@ -61,10 +78,10 @@ const Positions = () => {
                   </tr>
                 </tfoot>
                 <tbody>
-                  {POSITIONS.map((positions, index) => (
-                    <tr key={positions.id}>
+                  {positions.map((position, index) => (
+                    <tr key={position.id}>
                       <td>{index + 1}</td>
-                      <td>{positions.position}</td>
+                      <td>{position.name}</td>
                       <td>
                         <Link to="#" style={{ color: "red" }}>
                           Remove
@@ -103,7 +120,7 @@ const Positions = () => {
               </button>
             </div>
             <div class="modal-body">
-              {positionsData.isError ? (
+              {error ? (
                 <div
                   class="alert alert-danger alert-dismissible fade show"
                   role="alert"

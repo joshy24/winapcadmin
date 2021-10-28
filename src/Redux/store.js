@@ -4,7 +4,7 @@ import {composeWithDevTools} from "redux-devtools-extension";
 import { deleteCandidateReducer, getCandidatesReducer } from "./Reducers/candidate";
 import { getStatesReducer } from "./Reducers/states";
 import { getDonationsReducer } from "./Reducers/donation";
-import { deletePositionReducer, getPositionsReducer } from "./Reducers/position";
+import { createPositionsReducer, deletePositionReducer, getPositionsReducer } from "./Reducers/position";
 import { getLgaReducer } from "./Reducers/lga.js";
 
 const reducer = combineReducers({
@@ -19,6 +19,7 @@ const reducer = combineReducers({
 
     getPositionsReducer: getPositionsReducer,
     deletePositionReducer: deletePositionReducer,
+    createPositionsReducer:createPositionsReducer
 
 });
 
