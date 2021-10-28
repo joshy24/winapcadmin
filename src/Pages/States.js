@@ -9,6 +9,7 @@ const States = () => {
 
   useEffect(() => {
     dispatch(getStates());
+    console.log({ states: states.length });
   }, []);
 
   return (
@@ -34,6 +35,19 @@ const States = () => {
                   <th style={{ width: 150 }}></th>
                 </tr>
               </thead>
+              <tbody>
+                {states.map((state, index) => (
+                  <tr>
+                    <td>{index + 1}</td>
+                    <td>{state.stateName}</td>
+                    <td className="text-center">
+                      <Link to="/lga" style={{ color: "green" }}>
+                        View LGAs
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
               <tfoot>
                 <tr>
                   <th>S/N</th>
@@ -41,26 +55,6 @@ const States = () => {
                   <th></th>
                 </tr>
               </tfoot>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Edinburgh</td>
-                  <td className="text-center">
-                    <Link to="/lga" style={{ color: "green" }}>
-                      View LGAs
-                    </Link>
-                  </td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Tokyo</td>
-                  <td className="text-center">
-                    <Link to="/lga" style={{ color: "green" }}>
-                      View LGAs
-                    </Link>
-                  </td>
-                </tr>
-              </tbody>
             </table>
           </div>
         </div>
