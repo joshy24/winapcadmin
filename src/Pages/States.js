@@ -1,21 +1,16 @@
-import React 
-// {useEffect, useState} 
-from "react";
-// import {useDispatch, useSelector} from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-// import {getStates as listState} from '../Redux/Actions/states';
+import { getStates } from "../Redux/Slices/statesSlice";
 
 const States = () => {
-  // const dispatch = useDispatch();
-  // const getStates = useSelector((state) => state.getStates)
-  // const {state, loading, error} = getStates;
+  const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   dispatch(listCategories())
 
-  // }, [dispatch])
+  useEffect(() => {
+    dispatch(getStates());
+  }, []);
 
-  
   return (
     <div class="container-fluid">
       <h1 class="h3 mb-2 text-gray-800">States</h1>
@@ -34,21 +29,21 @@ const States = () => {
             >
               <thead>
                 <tr>
-                <th  style={{width:20}}>S/N</th>
+                  <th style={{ width: 20 }}>S/N</th>
                   <th>Name</th>
-                  <th style={{width:150}}></th>
+                  <th style={{ width: 150 }}></th>
                 </tr>
               </thead>
               <tfoot>
                 <tr>
-                <th>S/N</th>
+                  <th>S/N</th>
                   <th>Name</th>
                   <th></th>
                 </tr>
               </tfoot>
               <tbody>
                 <tr>
-                <td>1</td>
+                  <td>1</td>
                   <td>Edinburgh</td>
                   <td className="text-center">
                     <Link to="/lga" style={{ color: "green" }}>
@@ -57,11 +52,11 @@ const States = () => {
                   </td>
                 </tr>
                 <tr>
-                <td>2</td>
+                  <td>2</td>
                   <td>Tokyo</td>
                   <td className="text-center">
                     <Link to="/lga" style={{ color: "green" }}>
-                    View LGAs
+                      View LGAs
                     </Link>
                   </td>
                 </tr>
