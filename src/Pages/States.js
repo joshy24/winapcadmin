@@ -5,7 +5,7 @@ import { getStates } from "../Redux/Slices/statesSlice";
 
 const States = () => {
   const dispatch = useDispatch();
-
+  const states = useSelector(({ states }) => states.data);
 
   useEffect(() => {
     dispatch(getStates());
