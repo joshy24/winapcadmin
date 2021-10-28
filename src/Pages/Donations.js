@@ -1,22 +1,8 @@
 import React from "react";
-
-// import {useDispatch, useSelector} from "react-redux";
-
-
-// import {getDonations as listDonations} from '../Redux/Actions/donations'
-// helpers
 import DONATIONS from "../Helpers/donations";
 
 const Donations = () => {
-  // const dispatch = useDispatch()
 
-  // const getDonations = useSelector((state) => state.getDonations);
-  // const {donations, loading, error} = getDonations;
-
-  // useEffect(() => {
-  //   dispatch(listDonations())
-
-  // }, [dispatch])
 
   return (
     <div>
