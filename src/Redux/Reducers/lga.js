@@ -7,12 +7,12 @@ export const getLgaReducer = (state = { lga:[] }, action) => {
         case types.GET_LGA_REQUEST:
             return{
                 loading: true,
-                categories: []
+                lga: []
             }
         case types.GET_LGA_SUCCESS:
             return {
                 loading: false,
-                categories: payload
+                lga: payload
             }
         case types.GET_LGA_FAIL:
             return {

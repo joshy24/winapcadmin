@@ -7,14 +7,38 @@ export const getPositionsReducer = (state = { positions:[] }, action) => {
         case types.GET_POSITIONS_REQUEST:
             return{
                 loading: true,
-                categories: []
+                positions: []
             }
         case types.GET_POSITIONS_SUCCESS:
             return {
                 loading: false,
-                categories: payload
+                positions: payload
             }
         case types.GET_POSITIONS_FAIL:
+            return {
+                loading: false,
+                error: payload
+            }
+        default:
+            return state
+    }
+}
+
+export const createPositionsReducer = (state = { positions:[] }, action) => {
+    const {type, payload} = action
+
+    switch (type){
+        case types.CREATE_POSITION_REQUEST:
+            return{
+                loading: true,
+                positions: []
+            }
+        case types.CREATE_POSITION_SUCCESS:
+            return {
+                loading: false,
+                positions: payload
+            }
+        case types.CREATE_POSITION_FAIL:
             return {
                 loading: false,
                 error: payload

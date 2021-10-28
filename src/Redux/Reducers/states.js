@@ -7,12 +7,12 @@ export const getStatesReducer = (state = { states:[] }, action) => {
         case types.GET_STATES_REQUEST:
             return{
                 loading: true,
-                categories: []
+                states: []
             }
         case types.GET_STATES_SUCCESS:
             return {
                 loading: false,
-                categories: payload
+                states: payload
             }
         case types.GET_STATES_FAIL:
             return {

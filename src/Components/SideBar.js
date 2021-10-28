@@ -32,12 +32,6 @@ const SideBar = () => {
                     <i class="fas fa-fw fa-map-marker"></i>
                     <span>States</span></Link>
             </li>
-
-            <li class="nav-item">
-                <Link class="nav-link" to="/lga">
-                <i class="fas fa-fw fa-map-marker"></i>
-                    <span>LGA</span></Link>
-            </li>
             <li class="nav-item">
                 <Link class="nav-link" to="/positions">
                 <i class="fas fa-fw fa-user"></i>

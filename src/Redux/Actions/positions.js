@@ -5,7 +5,7 @@ export const getPositions = () => async (dispatch) => {
     try {
         dispatch({ type: types.GET_POSITIONS_REQUEST })
 
-        const { data } = await axios.get('#')
+        const { data } = await axios.get('http://localhost:7000/api/positions')
         dispatch({
             type: types.GET_POSITIONS_SUCCESS,
             payload: data
@@ -25,7 +25,7 @@ export const createCandidate = (candidate_name) => async (dispatch) => {
     try {
         dispatch({type: types.CREATE_POSITION_REQUEST})
 
-        const { data } = await axios.post('https://qcandlesapi.herokuapp.com/api/category', {candidate_name})
+        const { data } = await axios.post('https://win-apc.herokuapp.com/api/position', {candidate_name})
         dispatch({
             type: types.CREATE_POSITION_SUCCESS,
             payload: data

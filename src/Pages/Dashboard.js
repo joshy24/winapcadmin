@@ -111,7 +111,7 @@ const Dashboard = () => {
                   <th>Position</th>
                   <th>State</th>
                   <th>LGA</th>
-                  <th>Action</th>
+                  <th className="text-center" >Action</th>
                 </tr>
               </thead>
               <tfoot>
@@ -120,7 +120,7 @@ const Dashboard = () => {
                   <th>Position</th>
                   <th>State</th>
                   <th>LGA</th>
-                  <th>Action</th>
+                  <th className="text-center">Action</th>
                 </tr>
               </tfoot>
               <tbody>
@@ -129,14 +129,16 @@ const Dashboard = () => {
                   <td>Governor</td>
                   <td>Lagos</td>
                   <td> - </td>
-                  <td>
-                    <Link to="#" style={{ color: "green" }}>
-                      Edit
+                  <td className="text-center">
+                   <div>
+                   <Link to="#" style={{ color: "green" }}>
+                    <i class="fas fa-fw fa-edit" aria-hidden="true"></i>
                     </Link>
-                    |
+                    <span style={{marginRight:10,marginLeft:10}}>|</span>
                     <Link to="#" style={{ color: "red" }}>
-                      Remove
+                    <i class="fas fa-fw fa-trash" aria-hidden="true"></i>
                     </Link>
+                   </div>
                   </td>
                 </tr>
               </tbody>
