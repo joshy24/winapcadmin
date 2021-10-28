@@ -1,23 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { getPositions, createCandidate as listPosition } from "../Redux/Actions/positions";
-
+import { getPositions } from "../Redux/Slices/positionSlice";
 
 const Positions = () => {
-
   const dispatch = useDispatch();
-  const getPositions = useSelector((state) => state.getPositions);
-
-  const { positions, loading, error } = getPositions;
+  const positions = useSelector(({ positions }) => positions.data);
+  const positionsLoading = useSelector(({ positions }) => positions.loading);
 
 
   useEffect(() => {
-    dispatch(listPosition);
-  }, [dispatch]);
-
-  console.log(getPositions);
-
+    dispatch(getPositions());
+    console.log({ positionsLoading });
+  }, []);
 
   const [positionsData, setPositionsData] = useState({
     position: "",
@@ -25,9 +20,6 @@ const Positions = () => {
     isError: false,
     isSuccess: false,
   });
-
-
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -53,7 +45,7 @@ const Positions = () => {
 
         <div class="card shadow mb-4">
           <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">{loading ? 'Loading list' : 'Positions List '} </h6>
+            <h6 class="m-0 font-weight-bold text-primary">{positionsLoading === 'PENDING' ? 'Loading Positions' : 'Position List'} </h6>
           </div>
           <div class="card-body">
             <div class="table-responsive">
@@ -63,33 +55,39 @@ const Positions = () => {
                 width="100%"
                 cellspacing="0"
               >
-                <thead>
-                  <tr>
-                    <th style={{ width: 15 }}>S/N</th>
-                    <th>Position</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tfoot>
-                  <tr>
-                    <th style={{ width: 15 }}></th>
-                    <th>Position</th>
-                    <th style={{ width: 15 }}></th>
-                  </tr>
-                </tfoot>
-                <tbody>
-                  {positions.map((position, index) => (
-                    <tr key={position.id}>
-                      <td>{index + 1}</td>
-                      <td>{position.name}</td>
-                      <td>
-                        <Link to="#" style={{ color: "red" }}>
-                          Remove
-                        </Link>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
+                {positions.length > 1 ? (
+                  <>
+                    <thead>
+                      <tr>
+                        <th style={{ width: 15 }}>S/N</th>
+                        <th>Position</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tfoot>
+                      <tr>
+                        <th style={{ width: 15 }}></th>
+                        <th>Position</th>
+                        <th style={{ width: 15 }}></th>
+                      </tr>
+                    </tfoot>
+                    <tbody>
+                      {positions.map((position, index) => (
+                        <tr key={position.id}>
+                          <td>{index + 1}</td>
+                          <td>{position.name}</td>
+                          <td>
+                            <Link to="#" style={{ color: "red" }}>
+                              Remove
+                            </Link>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </>
+                ) : (
+                  "No Data"
+                )}
               </table>
             </div>
           </div>
@@ -120,7 +118,7 @@ const Positions = () => {
               </button>
             </div>
             <div class="modal-body">
-              {error ? (
+              {/* {error ? (
                 <div
                   class="alert alert-danger alert-dismissible fade show"
                   role="alert"
@@ -135,7 +133,7 @@ const Positions = () => {
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
-              ) : null}
+              ) : null} */}
               {positionsData.isSuccess ? (
                 <div
                   class="alert alert-success alert-dismissible fade show"

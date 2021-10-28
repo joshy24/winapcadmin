@@ -1,3 +1,0 @@
-export const GET_LGA_REQUEST = 'GET_LGA_REQUEST'
-export const GET_LGA_SUCCESS = 'GET_LGA_SUCCESS'
-export const GET_LGA_FAIL = 'GET_LGA_FAIL'
