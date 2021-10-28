@@ -12,6 +12,7 @@ const States = () => {
     console.log({ states: states.length });
   }, []);
 
+
   return (
     <div class="container-fluid">
       <h1 class="h3 mb-2 text-gray-800">States</h1>
