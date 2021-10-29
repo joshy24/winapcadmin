@@ -10,28 +10,27 @@ const States = () => {
 
   useEffect(() => {
     dispatch(getStates());
-    console.log({ states: states.length });
-  }, []);
+  }, [dispatch]);
 
   return (
-    <div class="container-fluid">
-      <h1 class="h3 mb-2 text-gray-800">States</h1>
+    <div className="container-fluid">
+      <h1 className="h3 mb-2 text-gray-800">States</h1>
 
-      <div class="card shadow mb-4">
-        <div class="card-header py-3">
-          <h6 class="m-0 font-weight-bold text-primary">States List</h6>
+      <div className="card shadow mb-4">
+        <div className="card-header py-3">
+          <h6 className="m-0 font-weight-bold text-primary">States List</h6>
         </div>
 
         {statesLoading === "PENDING" ? (
           <h3 className="m-3 text-center">Loading...</h3>
         ) : (
-          <div class="card-body">
-            <div class="table-responsive">
+          <div className="card-body">
+            <div className="table-responsive">
               <table
-                class="table table-bordered"
+                className="table table-bordered"
                 id="dataTable"
                 width="100%"
-                cellspacing="0"
+                cellSpacing="0"
               >
                 <thead>
                   <tr>

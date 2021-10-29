@@ -6,20 +6,20 @@ const Donations = () => {
 
   return (
     <div>
-      <div class="container-fluid">
-        <button class="btn btn-primary mb-3 mt-2" disabled>
+      <div className="container-fluid">
+        <button className="btn btn-primary mb-3 mt-2" disabled>
           Total money donated $75,000.00
         </button>
-        <h1 class="h3 mb-2 text-gray-800">Donations</h1>
+        <h1 className="h3 mb-2 text-gray-800">Donations</h1>
 
-        <div class="card shadow mb-4">
-          <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Donors List</h6>
+        <div className="card shadow mb-4">
+          <div className="card-header py-3">
+            <h6 className="m-0 font-weight-bold text-primary">Donors List</h6>
           </div>
-          <div class="card-body">
-            <div class="table-responsive">
+          <div className="card-body">
+            <div className="table-responsive">
               <table
-                class="table table-bordered"
+                className="table table-bordered"
                 id="dataTable"
                 width="100%"
                 cellspacing="0"

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { getCandidates, createCandidate } from "../Redux/Slices/candidates";
+import { getCandidates, createCandidate } from "../Redux/Slices/candidatesSlice";
 
 const Candidates = () => {
   const dispatch = useDispatch();
@@ -9,7 +9,7 @@ const Candidates = () => {
 
   useEffect(() => {
     dispatch(getCandidates());
-  }, []);
+  }, [dispatch]);
 
   const [formData, setFormData] = useState({
     state: "",
@@ -34,10 +34,10 @@ const Candidates = () => {
   };
   return (
     <div>
-      <div class="container-fluid">
-        <h1 class="h3 mb-2 text-gray-800">Candidates</h1>
+      <div className="container-fluid">
+        <h1 className="h3 mb-2 text-gray-800">Candidates</h1>
         <button
-          class="btn btn-primary mb-3 mt-2"
+          className="btn btn-primary mb-3 mt-2"
           type="button"
           data-toggle="modal"
           data-target="#exampleModalCenter"
@@ -57,17 +57,17 @@ const Candidates = () => {
           Add candidate
         </button>
 
-        <div class="card shadow mb-4">
-          <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Candidates List</h6>
+        <div className="card shadow mb-4">
+          <div className="card-header py-3">
+            <h6 className="m-0 font-weight-bold text-primary">Candidates List</h6>
           </div>
-          <div class="card-body">
-            <div class="table-responsive">
+          <div className="card-body">
+            <div className="table-responsive">
               <table
-                class="table table-bordered"
+                className="table table-bordered"
                 id="dataTable"
                 width="100%"
-                cellspacing="0"
+                cellSpacing="0"
               >
                 <thead>
                   <tr>
@@ -91,7 +91,7 @@ const Candidates = () => {
                 </tfoot>
                 <tbody>
                   {candidates.map((candidate, index) => (
-                    <tr key={candidate} key={candidate._id}>
+                    <tr key={candidate._id}>
                       <td>{index + 1}</td>
                       <td>{`${candidate.lastname} ${candidate.firstname}`}</td>
                       <td>{candidate.position}</td>
@@ -120,39 +120,39 @@ const Candidates = () => {
       {/* add candidate modal doings  */}
 
       <div
-        class="modal fade"
+        className="modal fade"
         id="exampleModalCenter"
-        tabindex="-1"
+        tabIndex="-1"
         role="dialog"
         aria-labelledby="exampleModalCenterTitle"
         aria-hidden="true"
       >
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLongTitle">
+        <div className="modal-dialog modal-dialog-centered" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLongTitle">
                 Assign New Candidate
               </h5>
               <button
                 type="button"
-                class="close"
+                className="close"
                 data-dismiss="modal"
                 aria-label="Close"
               >
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div class="modal-body">
-              <div class="modal-body">
+            <div className="modal-body">
+              <div className="modal-body">
                 {formData.isError ? (
                   <div
-                    class="alert alert-danger alert-dismissible fade show"
+                    className="alert alert-danger alert-dismissible fade show"
                     role="alert"
                   >
                     Upload failed
                     <button
                       type="button"
-                      class="close"
+                      className="close"
                       data-dismiss="alert"
                       aria-label="Close"
                     >
@@ -162,13 +162,13 @@ const Candidates = () => {
                 ) : null}
                 {formData.isSuccess ? (
                   <div
-                    class="alert alert-success alert-dismissible fade show"
+                    className="alert alert-success alert-dismissible fade show"
                     role="alert"
                   >
                     Candidate has been assigned
                     <button
                       type="button"
-                      class="close"
+                      className="close"
                       data-dismiss="alert"
                       aria-label="Close"
                     >
@@ -234,8 +234,8 @@ const Candidates = () => {
                       }
                     />
                   </div>
-                  <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">
+                  <div className="modal-footer">
+                    <button type="submit" className="btn btn-success">
                       {!formData.isLoading
                         ? "Add Candidate"
                         : "Adding Candidate..."}

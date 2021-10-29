@@ -1,9 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import api from "../../api";
+
+const baseUrl = "https://win-apc.herokuapp.com/api";
 
 const getCandidates = createAsyncThunk("candidates/getCandidates", async () => {
-  const { data } = await axios.get(`${api.baseUrl}/politicians`);
+  const { data } = await axios.get(`${baseUrl}/politicians`);
   return data;
 });
 
@@ -12,7 +13,7 @@ const createCandidate = createAsyncThunk(
   async ({ firstname, lastname, party, position, state, lga }) => {
     const config = {
       method: "post",
-      url: `${api.baseUrl}/politician`,
+      url: `${baseUrl}/politician`,
       data: {
         firstname,
         lastname,
@@ -67,7 +68,6 @@ const slice = createSlice({
       state.ui.isLoading = true;
     },
     [createCandidate.fulfilled]: (state, { payload }) => {
-      console.log({ payload });
       state.ui.message = "success";
       state.data.items = payload;
       state.ui.isLoading = false;

@@ -4,59 +4,59 @@ import { Link } from "react-router-dom";
 
 const SideBar = () => {
     return (
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-            <Link class="sidebar-brand d-flex align-items-center justify-content-center" to="/">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
+            <Link className="sidebar-brand d-flex align-items-center justify-content-center" to="/">
+                <div className="sidebar-brand-icon rotate-n-15">
+                    <i className="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3"> Admin </div>
+                <div className="sidebar-brand-text mx-3"> Admin </div>
             </Link>
 
-            <hr class="sidebar-divider my-0" />
+            <hr className="sidebar-divider my-0" />
 
-            <li class="nav-item active">
-                <Link class="nav-link" to="/">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+            <li className="nav-item active">
+                <Link className="nav-link" to="/">
+                    <i className="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></Link>
             </li>
 
-            <hr class="sidebar-divider" />
+            <hr className="sidebar-divider" />
 
-            <div class="sidebar-heading">
+            <div className="sidebar-heading">
                 Interface
             </div>
 
-            <li class="nav-item">
-                <Link class="nav-link" to="/states">
-                    <i class="fas fa-fw fa-map-marker"></i>
+            <li className="nav-item">
+                <Link className="nav-link" to="/states">
+                    <i className="fas fa-fw fa-map-marker"></i>
                     <span>States</span></Link>
             </li>
-            <li class="nav-item">
-                <Link class="nav-link" to="/positions">
-                <i class="fas fa-fw fa-user"></i>
+            <li className="nav-item">
+                <Link className="nav-link" to="/positions">
+                <i className="fas fa-fw fa-user"></i>
                     <span>Positions</span></Link>
             </li>
-            <li class="nav-item">
-                <Link class="nav-link" to="/candidates">
-                    <i class="fas fa-fw fa-user"></i>
+            <li className="nav-item">
+                <Link className="nav-link" to="/candidates">
+                    <i className="fas fa-fw fa-user"></i>
                     <span>Candidates</span></Link>
             </li>
 
-            <hr class="sidebar-divider" />
-            <li class="nav-item">
-                <Link class="nav-link" to="/donations">
-                    <i class="fas fa-fw fa-dollar-sign"></i>
+            <hr className="sidebar-divider" />
+            <li className="nav-item">
+                <Link className="nav-link" to="/donations">
+                    <i className="fas fa-fw fa-dollar-sign"></i>
                     <span>Donations</span></Link>
             </li>
-            <hr class="sidebar-divider d-none d-md-block" />
+            <hr className="sidebar-divider d-none d-md-block" />
 
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            <div className="text-center d-none d-md-inline">
+                <button className="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
 
-            <div class="sidebar-card d-none d-lg-flex">
-                <Link class="btn btn-success btn-sm" to="#">Log out</Link>
+            <div className="sidebar-card d-none d-lg-flex">
+                <Link className="btn btn-success btn-sm" to="#">Log out</Link>
             </div>
 
         </ul>

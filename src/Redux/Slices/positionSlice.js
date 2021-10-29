@@ -54,13 +54,12 @@ const positionsSlice = createSlice({
       state.loading = "PENDING";
     },
     [getPositions.fulfilled]: (state, { payload }) => {
-      // console.log({payload})
       state.loading = "FULFILLED";
       state.data = payload;
     },
     [getPositions.rejected]: (state, { error }) => {
-      console.log({ error });
       state.loading = "REJECTED";
+
     },
     //* ---------------- *//
     [createPosition.pending]: (state) => {
@@ -69,10 +68,11 @@ const positionsSlice = createSlice({
     [createPosition.fulfilled]: (state, { payload }) => {
       state.loading = "FULFILLED";
       state.data = payload;
+
     },
     [createPosition.rejected]: (state, { error }) => {
-      console.log({ error });
       state.loading = "REJECTED";
+      state.error = error;
     },
     //* ---------------- *//
     [deletePosition.pending]: (state) => {
@@ -83,8 +83,8 @@ const positionsSlice = createSlice({
       state.data = payload;
     },
     [deletePosition.rejected]: (state, { error }) => {
-      console.log({ error });
       state.loading = "REJECTED";
+      state.error = error;
     },
   },
 });
