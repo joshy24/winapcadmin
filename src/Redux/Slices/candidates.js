@@ -7,19 +7,19 @@ const getCandidates = createAsyncThunk("candidates/getCandidates", async () => {
   return data;
 });
 
-const createCandidates = createAsyncThunk(
-  "candidates/createCandidates",
-  async () => {
+const createCandidate = createAsyncThunk(
+  "candidates/createCandidate",
+  async ({ firstname, lastname, party, position, state, lga }) => {
     const config = {
       method: "post",
-      url: `${api.baseUrl}/politicians`,
+      url: `${api.baseUrl}/politician`,
       data: {
-        firstname: "Joseph",
-        lastname: "Martins",
-        party: "APC",
-        position: "Party Chairman",
-        state: "NGA2850",
-        lga: "Ikeja",
+        firstname,
+        lastname,
+        party,
+        position,
+        state,
+        lga,
       },
     };
 
@@ -60,8 +60,26 @@ const slice = createSlice({
       state.ui.hasError = true;
       state.ui.isLoading = true;
     },
+    //* ------------------ *//
+    [createCandidate.pending]: (state) => {
+      state.ui.message = "";
+      state.ui.hasError = false;
+      state.ui.isLoading = true;
+    },
+    [createCandidate.fulfilled]: (state, { payload }) => {
+      console.log({ payload });
+      state.ui.message = "success";
+      state.data.items = payload;
+      state.ui.isLoading = false;
+    },
+    [createCandidate.rejected]: (state, { error }) => {
+      console.log({ error });
+      state.ui.message = error.message;
+      state.ui.hasError = true;
+      state.ui.isLoading = true;
+    },
   },
 });
 
-export { getCandidates };
+export { getCandidates, createCandidate };
 export default slice.reducer;

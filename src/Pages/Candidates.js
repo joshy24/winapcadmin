@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { getCandidates } from "../Redux/Slices/candidates";
+import { getCandidates, createCandidate } from "../Redux/Slices/candidates";
 
 const Candidates = () => {
   const dispatch = useDispatch();
@@ -15,7 +15,9 @@ const Candidates = () => {
     state: "",
     lga: "",
     position: "",
-    candidate_name: "",
+    party: "",
+    firstname: "",
+    lastname: "",
     isLoading: false,
     isError: false,
     isSuccess: false,
@@ -39,6 +41,18 @@ const Candidates = () => {
           type="button"
           data-toggle="modal"
           data-target="#exampleModalCenter"
+          onClick={() => {
+            dispatch(
+              createCandidate({
+                firstname: formData.firstname,
+                lastname: formData.lastname,
+                party: formData.party,
+                position: formData.position,
+                state: formData.state,
+                lga: formData.lga,
+              })
+            );
+          }}
         >
           Add candidate
         </button>
@@ -77,7 +91,7 @@ const Candidates = () => {
                 </tfoot>
                 <tbody>
                   {candidates.map((candidate, index) => (
-                    <tr key={candidate}>
+                    <tr key={candidate} key={candidate._id}>
                       <td>{index + 1}</td>
                       <td>{`${candidate.lastname} ${candidate.firstname}`}</td>
                       <td>{candidate.position}</td>

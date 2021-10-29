@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { getPositions } from "../Redux/Slices/positionSlice";
+import {
+  createPosition,
+  deletePosition,
+  getPositions,
+} from "../Redux/Slices/positionSlice";
 
 const Positions = () => {
   const dispatch = useDispatch();
   const positions = useSelector(({ positions }) => positions.data);
   const positionsLoading = useSelector(({ positions }) => positions.loading);
-
 
   useEffect(() => {
     dispatch(getPositions());
@@ -15,7 +18,7 @@ const Positions = () => {
   }, []);
 
   const [positionsData, setPositionsData] = useState({
-    position: "",
+    name: "",
     isLoading: false,
     isError: false,
     isSuccess: false,
@@ -23,12 +26,7 @@ const Positions = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setPositionsData({ isLoading: true });
-
-    setTimeout(() => {
-      setPositionsData({ isError: true, isLoading: false });
-    }, 4000);
-    console.log(positionsData);
+    dispatch(createPosition({ name: positionsData }));
   };
   return (
     <div>
@@ -45,9 +43,13 @@ const Positions = () => {
 
         <div class="card shadow mb-4">
           <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">{!positionsLoading === 'PENDING' ? (
-              <div className="loading1"></div>
-            ) : 'Position List'} </h6>
+            <h6 class="m-0 font-weight-bold text-primary">
+              {!positionsLoading === "PENDING" ? (
+                <div className="loading1"></div>
+              ) : (
+                "Position List"
+              )}{" "}
+            </h6>
           </div>
           <div class="card-body">
             <div class="table-responsive">
@@ -79,7 +81,13 @@ const Positions = () => {
                           <td>{index + 1}</td>
                           <td>{position.name}</td>
                           <td>
-                            <Link to="#" style={{ color: "red" }}>
+                            <Link
+                              to="#"
+                              style={{ color: "red" }}
+                              onClick={() =>
+                                dispatch(deletePosition(position._id))
+                              }
+                            >
                               Remove
                             </Link>
                           </td>
@@ -165,9 +173,7 @@ const Positions = () => {
                 </div>
                 <div class="modal-footer">
                   <button type="submit" class="btn btn-success">
-                    {!positionsData.isLoading
-                      ? "Add Position"
-                      : "Adding Position..."}
+                    Add Position
                   </button>
                 </div>
               </form>

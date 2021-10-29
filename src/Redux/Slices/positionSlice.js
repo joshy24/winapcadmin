@@ -5,15 +5,42 @@ const baseUrl = "https://win-apc.herokuapp.com/api";
 
 // const baseUrl = "http://localhost:7000/api";
 
-export const getPositions = createAsyncThunk("positions/getPositions", async () => {
-  const { data } = await axios.get(`${baseUrl}/positions`);
-  return data;
-});
-
-export const createPosition = createAsyncThunk("position/createPosition", async () => {
-    const { data } = await axios.post(`${baseUrl}/position`);
+export const getPositions = createAsyncThunk(
+  "positions/getPositions",
+  async () => {
+    const { data } = await axios.get(`${baseUrl}/positions`);
     return data;
-  });
+  }
+);
+
+export const createPosition = createAsyncThunk(
+  "position/createPosition",
+  async ({ name }) => {
+    const config = {
+      method: "post",
+      url: `${baseUrl}/position`,
+      data: {
+        name,
+      },
+    };
+
+    const { data } = await axios(config);
+    return data;
+  }
+);
+
+export const deletePosition = createAsyncThunk(
+  "position/deletePosition",
+  async (id) => {
+    const config = {
+      method: "delete",
+      url: `${baseUrl}/position/${id}`,
+    };
+
+    const { data } = await axios(config);
+    return data;
+  }
+);
 
 const positionsSlice = createSlice({
   name: "positions",
@@ -35,6 +62,7 @@ const positionsSlice = createSlice({
       console.log({ error });
       state.loading = "REJECTED";
     },
+    //* ---------------- *//
     [createPosition.pending]: (state) => {
       state.loading = "PENDING";
     },
@@ -46,8 +74,19 @@ const positionsSlice = createSlice({
       console.log({ error });
       state.loading = "REJECTED";
     },
+    //* ---------------- *//
+    [deletePosition.pending]: (state) => {
+      state.loading = "PENDING";
+    },
+    [deletePosition.fulfilled]: (state, { payload }) => {
+      state.loading = "FULFILLED";
+      state.data = payload;
+    },
+    [deletePosition.rejected]: (state, { error }) => {
+      console.log({ error });
+      state.loading = "REJECTED";
+    },
   },
 });
-
 
 export default positionsSlice.reducer;
