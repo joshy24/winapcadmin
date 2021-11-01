@@ -1,49 +1,44 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { getPositions, createCandidate as listPosition } from "../Redux/Actions/positions";
-
+import {
+  createPosition,
+  deletePosition,
+  getPositions,
+} from "../Redux/Slices/positionSlice";
 
 const Positions = () => {
-
   const dispatch = useDispatch();
-  const getPositions = useSelector((state) => state.getPositions);
-
-  const { positions, loading, error } = getPositions;
+  const positions = useSelector(({ positions }) => positions.data);
+  const positionsLoading = useSelector(({ positions }) => positions.loading);
+  const positionError = useSelector(({ positions }) => positions.error);
+  const positionMessage = useSelector(({ positions }) => positions.successMessage);
 
 
   useEffect(() => {
-    dispatch(listPosition);
+    dispatch(getPositions());
   }, [dispatch]);
 
-  console.log(getPositions);
-
-
   const [positionsData, setPositionsData] = useState({
-    position: "",
+    name: "",
     isLoading: false,
     isError: false,
     isSuccess: false,
   });
 
-
-
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    setPositionsData({ isLoading: true });
-
+    dispatch(createPosition({ name: positionsData }));
     setTimeout(() => {
-      setPositionsData({ isError: true, isLoading: false });
-    }, 4000);
-    console.log(positionsData);
+      window.location.reload()
+    }, 5000);
   };
   return (
     <div>
-      <div class="container-fluid">
-        <h1 class="h3 mb-2 text-gray-800">Positions</h1>
+      <div className="container-fluid">
+        <h1 className="h3 mb-2 text-gray-800">Positions</h1>
         <button
-          class="btn btn-primary mb-3 mt-2"
+          className="btn btn-primary mb-3 mt-2"
           type="button"
           data-toggle="modal"
           data-target="#exampleModalCenter"
@@ -51,45 +46,67 @@ const Positions = () => {
           Add Positions
         </button>
 
-        <div class="card shadow mb-4">
-          <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">{loading ? 'Loading list' : 'Positions List '} </h6>
+        <div className="card shadow mb-4">
+          <div className="card-header py-3">
+            <h6 className="m-0 font-weight-bold text-primary">
+              {!positionsLoading === "PENDING" ? (
+                <div className="loading1"></div>
+              ) : (
+                "Position List"
+              )}{" "}
+            </h6>
           </div>
-          <div class="card-body">
-            <div class="table-responsive">
+          <div className="card-body">
+            <div className="table-responsive">
               <table
-                class="table table-bordered"
+                className="table table-bordered"
                 id="dataTable"
                 width="100%"
-                cellspacing="0"
+                cellSpacing="0"
               >
-                <thead>
-                  <tr>
-                    <th style={{ width: 15 }}>S/N</th>
-                    <th>Position</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tfoot>
-                  <tr>
-                    <th style={{ width: 15 }}></th>
-                    <th>Position</th>
-                    <th style={{ width: 15 }}></th>
-                  </tr>
-                </tfoot>
-                <tbody>
-                  {positions.map((position, index) => (
-                    <tr key={position.id}>
-                      <td>{index + 1}</td>
-                      <td>{position.name}</td>
-                      <td>
-                        <Link to="#" style={{ color: "red" }}>
-                          Remove
-                        </Link>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
+                {positions.length > 1 ? (
+                  <>
+                    <thead>
+                      <tr>
+                        <th style={{ width: 15 }}>S/N</th>
+                        <th>Position</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tfoot>
+                      <tr>
+                        <th style={{ width: 15 }}></th>
+                        <th>Position</th>
+                        <th style={{ width: 15 }}></th>
+                      </tr>
+                    </tfoot>
+                    <tbody>
+                      {positions.map((position, index) => (
+                        <tr key={position.id}>
+                          <td>{index + 1}</td>
+                          <td>{position.name}</td>
+                          <td>
+                            <Link
+                              to="#"
+                              style={{ color: "red" }}
+                              onClick={() =>
+                                {dispatch(deletePosition(position._id))
+                                  setTimeout(() => {
+                                    window.location.reload()
+                                  }, 1000);
+                                }
+                              }
+                            >
+                              Remove
+                            </Link>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </>
+                ) : 
+                  null
+                }
               </table>
             </div>
           </div>
@@ -97,54 +114,54 @@ const Positions = () => {
       </div>
 
       <div
-        class="modal fade"
+        className="modal fade"
         id="exampleModalCenter"
-        tabindex="-1"
+        tabIndex="-1"
         role="dialog"
         aria-labelledby="exampleModalCenterTitle"
         aria-hidden="true"
       >
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLongTitle">
+        <div className="modal-dialog modal-dialog-centered" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLongTitle">
                 Add New Positions
               </h5>
               <button
                 type="button"
-                class="close"
+                className="close"
                 data-dismiss="modal"
                 aria-label="Close"
               >
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div class="modal-body">
-              {error ? (
+            <div className="modal-body">
+              {positionError ? (
                 <div
-                  class="alert alert-danger alert-dismissible fade show"
+                  className="alert alert-danger alert-dismissible fade show"
                   role="alert"
                 >
-                  Upload failed
+                  {positionError}
                   <button
                     type="button"
-                    class="close"
+                    className="close"
                     data-dismiss="alert"
                     aria-label="Close"
                   >
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
-              ) : null}
-              {positionsData.isSuccess ? (
+              ) : null} 
+              {positionMessage ? (
                 <div
-                  class="alert alert-success alert-dismissible fade show"
+                  className="alert alert-success alert-dismissible fade show"
                   role="alert"
                 >
-                  Position has been added
+                  {positionMessage}
                   <button
                     type="button"
-                    class="close"
+                    className="close"
                     data-dismiss="alert"
                     aria-label="Close"
                   >
@@ -163,11 +180,9 @@ const Positions = () => {
                     onChange={(e) => setPositionsData(e.target.value)}
                   />
                 </div>
-                <div class="modal-footer">
-                  <button type="submit" class="btn btn-success">
-                    {!positionsData.isLoading
-                      ? "Add Position"
-                      : "Adding Position..."}
+                <div className="modal-footer">
+                  <button type="submit" className="btn btn-success">
+                    Add Position
                   </button>
                 </div>
               </form>

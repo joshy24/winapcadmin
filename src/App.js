@@ -17,7 +17,7 @@ const App = () => {
         {/* saidebar goes here  */}
         <SideBar />
 
-        <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content-wrapper" className="d-flex flex-column">
           <div id="content">
             {/* top bar goes here  */}
             <TopBar />
