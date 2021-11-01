@@ -7,7 +7,7 @@ import NaijaStates from 'naija-state-local-government';
 const Candidates = () => {
   const dispatch = useDispatch();
   const candidates = useSelector(({ candidates }) => candidates.data.items);
-  const states = useSelector(({ states }) => states.data);
+  // const states = useSelector(({ states }) => states.data);
   const positions = useSelector(({ positions }) => positions.data);
 
   useEffect(() => {
@@ -26,7 +26,7 @@ const Candidates = () => {
     isSuccess: false,
   });
 
-  const states = NaijaStates.states()
+  const allStates = NaijaStates.states()
 
   const toggleLGA = (state) => {
     setFormData({ ...formData, state })
@@ -209,7 +209,7 @@ const Candidates = () => {
                       value={formData.state}
                       onChange={(e) => toggleLGA(e.target.value)}
                     >
-                      {states.map((state, index) => (
+                      {allStates.map((state, index) => (
                         <option value={state} key={index}>{state}</option>
                       ))}
 
