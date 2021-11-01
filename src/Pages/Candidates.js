@@ -7,6 +7,8 @@ import NaijaStates from 'naija-state-local-government';
 const Candidates = () => {
   const dispatch = useDispatch();
   const candidates = useSelector(({ candidates }) => candidates.data.items);
+  const states = useSelector(({ states }) => states.data);
+  const positions = useSelector(({ positions }) => positions.data);
 
   useEffect(() => {
     dispatch(getCandidates());
@@ -34,14 +36,24 @@ const Candidates = () => {
 
 
   const handleSubmit = (e) => {
-    setFormData({ isLoading: true });
     e.preventDefault();
-
+    setFormData({ isLoading: true });
+    dispatch(
+      createCandidate({
+        firstname: formData.firstname,
+        lastname: formData.lastname,
+        stateName: formData.state,
+        lga: formData.lga,
+        position: formData.position,
+        party: formData.party
+      })
+    );
     setTimeout(() => {
       setFormData({ isError: true, isLoading: false });
-    }, 4000);
-    console.log(formData);
+      window.location.reload();
+    }, 5000);
   };
+
   return (
     <div>
       <div className="container-fluid">
@@ -67,7 +79,9 @@ const Candidates = () => {
 
         <div className="card shadow mb-4">
           <div className="card-header py-3">
-            <h6 className="m-0 font-weight-bold text-primary">Candidates List</h6>
+            <h6 className="m-0 font-weight-bold text-primary">
+              Candidates List
+            </h6>
           </div>
           <div className="card-body">
             <div className="table-responsive">
@@ -77,6 +91,7 @@ const Candidates = () => {
                 width="100%"
                 cellSpacing="0"
               >
+                {}
                 <thead>
                   <tr>
                     <th style={{ width: 15 }}>S/N</th>
@@ -98,7 +113,7 @@ const Candidates = () => {
                   </tr>
                 </tfoot>
                 <tbody>
-                  {candidates.map((candidate, index) => (
+                  { candidates.length > 0 ? candidates.map((candidate, index) => (
                     <tr key={candidate._id}>
                       <td>{index + 1}</td>
                       <td>{`${candidate.lastname} ${candidate.firstname}`}</td>
@@ -117,7 +132,9 @@ const Candidates = () => {
                         </Link>
                       </td>
                     </tr>
-                  ))}
+                  )) : !candidates.length > 0 && (
+                    <h3 className="text-center">No available data</h3>
+                  )}
                 </tbody>
               </table>
             </div>
@@ -224,8 +241,12 @@ const Candidates = () => {
                       }
                     >
                       <option>-- SELECT POSITION -- </option>
-                      <option>Governor</option>
-                      <option>President</option>
+                      {positions.map((position) => (
+                        <option key={position._id} value={position.name}>
+                          {" "}
+                          {position.name}{" "}
+                        </option>
+                      ))}{" "}
                     </select>
                   </div>
                   <div className="form-group">
