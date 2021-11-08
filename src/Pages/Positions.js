@@ -14,7 +14,7 @@ const Positions = () => {
   const positionError = useSelector(({ positions }) => positions.error);
   const positionMessage = useSelector(({ positions }) => positions.successMessage);
 
-
+const [loading, setLoading] = useState(false);
   useEffect(() => {
     dispatch(getPositions());
   }, [dispatch]);
@@ -28,9 +28,11 @@ const Positions = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
     dispatch(createPosition({ name: positionsData }));
     setTimeout(() => {
       window.location.reload()
+      setLoading(false);
     }, 5000);
   };
   return (
@@ -182,7 +184,8 @@ const Positions = () => {
                 </div>
                 <div className="modal-footer">
                   <button type="submit" className="btn btn-success">
-                    Add Position
+                    
+                    {loading ? 'Please wait...' : 'Add Position'}
                   </button>
                 </div>
               </form>
