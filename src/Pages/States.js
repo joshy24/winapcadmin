@@ -36,7 +36,7 @@ const States = () => {
                   <tr>
                     <th style={{ width: 20 }}>S/N</th>
                     <th>Name</th>
-                    <th style={{ width: 150 }}></th>
+                    {/* <th style={{ width: 150 }}></th> */}
                   </tr>
                 </thead>
                 <tbody>
@@ -44,11 +44,11 @@ const States = () => {
                     <tr>
                       <td>{index + 1}</td>
                       <td>{state.stateName}</td>
-                      <td className="text-center">
+                      {/* <td className="text-center">
                         <Link to="/lga" style={{ color: "green" }}>
                           View LGAs
                         </Link>
-                      </td>
+                      </td> */}
                     </tr>
                   ))}
                 </tbody>
@@ -56,7 +56,7 @@ const States = () => {
                   <tr>
                     <th>S/N</th>
                     <th>Name</th>
-                    <th></th>
+                    {/* <th></th> */}
                   </tr>
                 </tfoot>
               </table>
