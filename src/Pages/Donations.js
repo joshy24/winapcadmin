@@ -8,7 +8,7 @@ const Donations = () => {
     <div>
       <div className="container-fluid">
         <button className="btn btn-primary mb-3 mt-2" disabled>
-          Total money donated $75,000.00
+          Total money donated &#x20A6;75,000.00
         </button>
         <h1 className="h3 mb-2 text-gray-800">Donations</h1>
 

@@ -50,7 +50,7 @@ const Dashboard = () => {
                       Total Donations
                     </div>
                     <div className="h5 mb-0 font-weight-bold text-gray-800">
-                      $40,000
+                    &#x20A6;40,000
                     </div>
                   </div>
                   <div className="col-auto">
