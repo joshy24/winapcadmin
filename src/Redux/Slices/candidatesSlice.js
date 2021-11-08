@@ -14,7 +14,7 @@ const createCandidate = createAsyncThunk(
   async (formData) => {
     const { data } = await axios.post(`${baseUrl}/politician`, formData);
     console.log(data)
-    // return data;
+    return data;
   }
 );
 
