@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const baseUrl = "https://win-apc.herokuapp.com/api";
-// const baseUrl = "http://localhost:7000/api";
+// const baseUrl = "https://win-apc.herokuapp.com/api";
+const baseUrl = "http://localhost:7000/api";
 
 const getCandidates = createAsyncThunk("candidates/getCandidates", async () => {
   const { data } = await axios.get(`${baseUrl}/politicians`);
@@ -11,20 +11,8 @@ const getCandidates = createAsyncThunk("candidates/getCandidates", async () => {
 
 const createCandidate = createAsyncThunk(
   "candidates/createCandidate",
-  async ({ candidate_name, position, state, lga }) => {
-    const config = {
-      method: "post",
-      url: `${baseUrl}/politician`,
-      data: {
-        candidate_name,
-        position,
-        state,
-        lga,
-      },
-    };
-
-    const { data } = await axios(config);
-    console.log(data);
+  async (formData) => {
+    const { data } = await axios.post(`${baseUrl}/politician`, formData);
     return data;
   }
 );
@@ -50,7 +38,6 @@ const slice = createSlice({
       state.ui.isLoading = true;
     },
     [getCandidates.fulfilled]: (state, { payload }) => {
-      console.log({ payload });
       state.ui.message = "success";
       state.data.items = payload;
       state.ui.isLoading = false;
@@ -69,7 +56,7 @@ const slice = createSlice({
     },
     [createCandidate.fulfilled]: (state, { payload }) => {
       state.ui.message = "success";
-      state.data.items = payload;
+      state.data.items = state.data.items.concat(payload);
       state.ui.isLoading = false;
     },
     [createCandidate.rejected]: (state, { error }) => {

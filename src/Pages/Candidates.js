@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { getCandidates, createCandidate } from "../Redux/Slices/candidatesSlice";
-import NaijaStates from 'naija-state-local-government';
+import {
+  getCandidates,
+  createCandidate,
+} from "../Redux/Slices/candidatesSlice";
+import {getPositions} from '../Redux/Slices/positionSlice'
+import NaijaStates from "naija-state-local-government";
 
 const Candidates = () => {
   const dispatch = useDispatch();
@@ -12,9 +16,12 @@ const Candidates = () => {
 
   useEffect(() => {
     dispatch(getCandidates());
+    dispatch(getPositions());
   }, [dispatch]);
 
-  const [lgas, setLgas] = useState([])
+  const [lgas, setLgas] = useState([]);
+  const [file, setFile] = useState();
+  const [fileName, setFileName] = useState("");
 
   const [formData, setFormData] = useState({
     state: "",
@@ -26,36 +33,49 @@ const Candidates = () => {
     isSuccess: false,
   });
 
-  const allStates = NaijaStates.states()
+  const allStates = NaijaStates.states();
 
   const toggleLGA = (state) => {
-    setFormData({ ...formData, state })
-    const getLgas = NaijaStates.lgas(state).lgas
-    setLgas(getLgas)
-  }
+    setFormData({ ...formData, state });
+    const getLgas = NaijaStates.lgas(state).lgas;
+    setLgas(getLgas);
+  };
 
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0])
+    setFileName(e.target.files[0].name)
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setFormData({ isLoading: true });
+
+    const createForm = new FormData()
+    createForm.append('candidate_name', formData.candidate_name);
+    createForm.append('image', file);
+    createForm.append('state', formData.state);
+    createForm.append('lga', formData.lga);
+    createForm.append('position', formData.position);
+
     dispatch(
-      createCandidate({
-        firstname: formData.firstname,
-        lastname: formData.lastname,
-        stateName: formData.state,
-        lga: formData.lga,
-        position: formData.position,
-        party: formData.party
-      })
+      createCandidate(createForm)
     );
     setTimeout(() => {
-      setFormData({ isError: true, isLoading: false });
-      window.location.reload();
-    }, 5000);
+      setFormData({
+        state: "",
+        position: "",
+        candidate_name: "",
+        isLoading: false,
+        isError: false,
+        isSuccess: true,
+      });
+      setLgas([])
+      // window.location.reload();
+    }, 1000);
   };
 
   return (
-    <div>
+    <>
       <div className="container-fluid">
         <h1 className="h3 mb-2 text-gray-800">Candidates</h1>
         <button
@@ -63,16 +83,16 @@ const Candidates = () => {
           type="button"
           data-toggle="modal"
           data-target="#exampleModalCenter"
-          onClick={() => {
-            dispatch(
-              createCandidate({
-                candidate_name: formData.candidate_name,
-                position: formData.position,
-                state: formData.state,
-                lga: formData.lga,
-              })
-            );
-          }}
+          // onClick={() => {
+          //   dispatch(
+          //     createCandidate({
+          //       candidate_name: formData.candidate_name,
+          //       position: formData.position,
+          //       state: formData.state,
+          //       lga: formData.lga,
+          //     })
+          //   );
+          // }}
         >
           Add candidate
         </button>
@@ -91,7 +111,6 @@ const Candidates = () => {
                 width="100%"
                 cellSpacing="0"
               >
-                {}
                 <thead>
                   <tr>
                     <th style={{ width: 15 }}>S/N</th>
@@ -113,36 +132,38 @@ const Candidates = () => {
                   </tr>
                 </tfoot>
                 <tbody>
-                  { candidates.length > 0 ? candidates.map((candidate, index) => (
-                    <tr key={candidate._id}>
-                      <td>{index + 1}</td>
-                      <td>{`${candidate.lastname} ${candidate.firstname}`}</td>
-                      <td>{candidate.position}</td>
-                      <td>{candidate.state}</td>
-                      <td> {candidate.lga} </td>
-                      <td className="text-center">
-                        <Link to="#" style={{ color: "green" }}>
-                          Edit
-                        </Link>
-                        <span style={{ marginLeft: 10, marginRight: 10 }}>
-                          |
-                        </span>
-                        <Link to="#" style={{ color: "red" }}>
-                          Remove
-                        </Link>
-                      </td>
-                    </tr>
-                  )) : !candidates.length > 0 && (
-                    <h3 className="text-center">No available data</h3>
-                  )}
+                  {candidates.length > 0
+                    ? candidates.map((candidate, index) => (
+                        <tr key={candidate._id}>
+                          <td>{index + 1}</td>
+                          <td>{candidate.candidate_name}</td>
+                          <td>{candidate.position}</td>
+                          <td>{candidate.state}</td>
+                          <td> {candidate.lga} </td>
+                          <td className="text-center">
+                            <Link to="#" style={{ color: "green" }}>
+                              Edit
+                            </Link>
+                            <span style={{ marginLeft: 10, marginRight: 10 }}>
+                              |
+                            </span>
+                            <Link to="#" style={{ color: "red" }}>
+                              Remove
+                            </Link>
+                          </td>
+                        </tr>
+                      ))
+                    :(
+                      <tr>
+                        <td colspan="6">No available data</td>
+                      </tr>
+                      )}
                 </tbody>
               </table>
             </div>
           </div>
         </div>
       </div>
-
-      {/* add candidate modal doings  */}
 
       <div
         className="modal fade"
@@ -210,9 +231,10 @@ const Candidates = () => {
                       onChange={(e) => toggleLGA(e.target.value)}
                     >
                       {allStates.map((state, index) => (
-                        <option value={state} key={index}>{state}</option>
+                        <option value={state} key={index}>
+                          {state}
+                        </option>
                       ))}
-
                     </select>
                   </div>
                   <div className="form-group">
@@ -227,7 +249,9 @@ const Candidates = () => {
                       }
                     >
                       {lgas.map((lga, index) => (
-                        <option value={lga} key={index}>{lga}</option>
+                        <option value={lga} key={index}>
+                          {lga}
+                        </option>
                       ))}
                     </select>
                   </div>
@@ -264,6 +288,15 @@ const Candidates = () => {
                       }
                     />
                   </div>
+                  <div className="form-group">
+                    <label>Candidate Photo</label>
+                    <input
+                      type="file"
+                      placeholder="Candidate Name"
+                      className="form-control"
+                      onChange={handleFileChange}
+                    />
+                  </div>
                   <div className="modal-footer">
                     <button type="submit" className="btn btn-success">
                       {!formData.isLoading
@@ -277,7 +310,7 @@ const Candidates = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
