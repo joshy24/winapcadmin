@@ -2,8 +2,8 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 
-// const baseUrl = "https://win-apc.herokuapp.com/api";
-const baseUrl = "http://localhost:7000/api";
+const baseUrl = "https://win-apc.herokuapp.com/api";
+// const baseUrl = "http://localhost:7000/api";
 
 
 export const getDonations = createAsyncThunk("donations/getDonations", async () => {
