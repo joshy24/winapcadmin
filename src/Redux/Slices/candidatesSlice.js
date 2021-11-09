@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const baseUrl = "https://win-apc.herokuapp.com/api";
-// const baseUrl = "http://localhost:7000/api";
+// const baseUrl = "https://win-apc.herokuapp.com/api";
+const baseUrl = "http://localhost:7000/api";
 
 const getCandidates = createAsyncThunk("candidates/getCandidates", async () => {
   const { data } = await axios.get(`${baseUrl}/politicians`);
@@ -13,10 +13,26 @@ const createCandidate = createAsyncThunk(
   "candidates/createCandidate",
   async (formData) => {
     const { data } = await axios.post(`${baseUrl}/politician`, formData);
-    console.log(data)
     return data;
   }
 );
+
+const updateCandidate = createAsyncThunk(
+  "candidates/updateCandidate",
+  async ({id, content }) => {
+    const {data} = await axios.put(`${baseUrl}/politician/${id}`, content);
+    return data.user
+  }
+)
+
+const deleteCandidate = createAsyncThunk(
+  "candidates/deleteCandidate",
+  async ({id}) => {
+    console.log(id)
+    await axios.delete(`${baseUrl}/politician/${id}`)
+    return id
+  }
+)
 
 const slice = createSlice({
   name: "candidates",
@@ -66,8 +82,21 @@ const slice = createSlice({
       state.ui.hasError = true;
       state.ui.isLoading = true;
     },
+    //*-------------------------------------------------------*//
+    [updateCandidate.fulfilled]: (state, {payload}) => {
+      const index = state.data.items.findIndex(politician => politician._id === payload._id)
+      state.data.items[index] = {
+        ...state.data.items[index],
+        ...payload
+      }
+    },
+    //*-------------------------------------------------------*//
+    [deleteCandidate.fulfilled]: (state, {payload}) => {
+      let index = state.data.items.findIndex(({id}) => id === payload.id)
+      state.data.items.splice(index, 1)
+    }
   },
 });
 
-export { getCandidates, createCandidate };
+export { getCandidates, createCandidate, updateCandidate, deleteCandidate };
 export default slice.reducer;
