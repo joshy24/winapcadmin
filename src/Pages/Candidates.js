@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {Link} from "react-router-dom";
 import axios from "axios";
 import {
   getCandidates,
@@ -8,12 +8,13 @@ import {
 } from "../Redux/Slices/candidatesSlice";
 import {getPositions} from '../Redux/Slices/positionSlice'
 import NaijaStates from "naija-state-local-government";
+import $ from 'jquery'
 
 const Candidates = () => {
   const dispatch = useDispatch();
-  const candidates = useSelector(({ candidates }) => candidates.data.items);
+  const candidates = useSelector(({candidates}) => candidates.data.items);
   // const states = useSelector(({ states }) => states.data);
-  const positions = useSelector(({ positions }) => positions.data);
+  const positions = useSelector(({positions}) => positions.data);
   const [lgas, setLgas] = useState([]);
   const [file, setFile] = useState();
   const [fileName, setFileName] = useState("");
@@ -38,7 +39,7 @@ const Candidates = () => {
   const allStates = NaijaStates.states();
 
   const toggleLGA = (state) => {
-    setFormData({ ...formData, state });
+    setFormData({...formData, state});
     const getLgas = NaijaStates.lgas(state).lgas;
     setLgas(getLgas);
   };
@@ -46,6 +47,16 @@ const Candidates = () => {
   const handleFileChange = (e) => {
     setFile(e.target.files[0])
     setFileName(e.target.files[0].name)
+  }
+
+  const handleChange = (e) => {
+    let position = e.target.value
+    setFormData({...formData, position: position})
+    if(position === "Senate" || position === 'House of Representatives' || position === 'State Assembly') {
+      $(".lga").removeClass("d-none")
+    }else {
+      $(".lga").addClass("d-none")
+    }
   }
 
   const handleAdd = async () => {
@@ -81,7 +92,7 @@ const Candidates = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setFormData({...formData, isLoading: true });
+    setFormData({...formData, isLoading: true});
 
     const createForm = new FormData()
     createForm.append('candidate_name', formData.candidate_name);
@@ -110,7 +121,7 @@ const Candidates = () => {
 
   const handleCandidateEdit = (e, id) => {
     e.preventDefault();
-    setFormData({ ...formData, isLoading: true });
+    setFormData({...formData, isLoading: true});
 
     const createForm = new FormData()
     createForm.append('candidate_name', formData.candidate_name);
@@ -176,52 +187,53 @@ const Candidates = () => {
                 cellSpacing="0"
               >
                 <thead>
-                  <tr>
-                    <th style={{ width: 15 }}>S/N</th>
-                    <th>Name</th>
-                    <th>Position</th>
-                    <th>State</th>
-                    <th>LGA</th>
-                    <th className="text-center">Action</th>
-                  </tr>
+                <tr>
+                  <th style={{width: 15}}>S/N</th>
+                  <th>Name</th>
+                  <th>Position</th>
+                  <th>State</th>
+                  <th>LGA</th>
+                  <th className="text-center">Action</th>
+                </tr>
                 </thead>
                 <tfoot>
-                  <tr>
-                    <th style={{ width: 15 }}>S/N</th>
-                    <th>Name</th>
-                    <th>Position</th>
-                    <th>State</th>
-                    <th>LGA</th>
-                    <th className="text-center">Action</th>
-                  </tr>
+                <tr>
+                  <th style={{width: 15}}>S/N</th>
+                  <th>Name</th>
+                  <th>Position</th>
+                  <th>State</th>
+                  <th>LGA</th>
+                  <th className="text-center">Action</th>
+                </tr>
                 </tfoot>
                 <tbody>
-                  {candidates.length > 0
-                    ? candidates.map((candidate, index) => (
-                        <tr key={candidate._id}>
-                          <td>{index + 1}</td>
-                          <td>{candidate.candidate_name}</td>
-                          <td>{candidate.position}</td>
-                          <td>{candidate.state}</td>
-                          <td> {candidate.lga} </td>
-                          <td className="text-center">
-                            <span onClick={() => handleEdit(candidate._id)} data-toggle="modal" data-target="#exampleModalCenter" style={{ color: "green", cursor: "pointer" }}>
+                {candidates.length > 0
+                  ? candidates.map((candidate, index) => (
+                    <tr key={candidate._id}>
+                      <td>{index + 1}</td>
+                      <td>{candidate.candidate_name}</td>
+                      <td>{candidate.position}</td>
+                      <td>{candidate.state}</td>
+                      <td> {candidate.lga} </td>
+                      <td className="text-center">
+                            <span onClick={() => handleEdit(candidate._id)} data-toggle="modal"
+                                  data-target="#exampleModalCenter" style={{color: "green", cursor: "pointer"}}>
                               Edit
                             </span>
-                            <span style={{ marginLeft: 10, marginRight: 10 }}>
+                        <span style={{marginLeft: 10, marginRight: 10}}>
                               |
                             </span>
-                            <span onClick={(e) => handleRemove(e, candidate._id)} style={{ color: "red", cursor: "pointer" }}>
+                        <span onClick={(e) => handleRemove(e, candidate._id)} style={{color: "red", cursor: "pointer"}}>
                               Remove
                             </span>
-                          </td>
-                        </tr>
-                      ))
-                    :(
-                      <tr>
-                        <td colspan="6">No available data</td>
-                      </tr>
-                      )}
+                      </td>
+                    </tr>
+                  ))
+                  : (
+                    <tr>
+                      <td colspan="6">No available data</td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>
@@ -241,7 +253,7 @@ const Candidates = () => {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLongTitle">
-                {formData.isEdit ? "Edit Candidate" : "Assign New Candidate" }
+                {formData.isEdit ? "Edit Candidate" : "Assign New Candidate"}
               </h5>
               <button
                 type="button"
@@ -275,7 +287,7 @@ const Candidates = () => {
                     className="alert alert-success alert-dismissible fade show"
                     role="alert"
                   >
-                    {formData.isEdit ? "Candidate has been updated" : "Candidate has been assigned" }
+                    {formData.isEdit ? "Candidate has been updated" : "Candidate has been assigned"}
                     <button
                       type="button"
                       className="close"
@@ -287,56 +299,6 @@ const Candidates = () => {
                   </div>
                 ) : null}
                 <form className="form">
-                  <div className="form-group">
-                    <label> State</label>
-                    <select
-                      className="form-control"
-                      value={formData.state}
-                      onChange={(e) => toggleLGA(e.target.value)}
-                    >
-                      {allStates.map((state, index) => (
-                        <option value={state} key={index}>
-                          {state}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="form-group">
-                    <label> LGA</label>
-                    <select
-                      name="lga"
-                      id="lga"
-                      className="form-control select-lga"
-                      value={formData.lga}
-                      onChange={(e) =>
-                        setFormData({ ...formData, lga: e.target.value })
-                      }
-                    >
-                      {lgas.map((lga, index) => (
-                        <option value={lga} key={index}>
-                          {lga}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="form-group">
-                    <label> Position</label>
-                    <select
-                      className="form-control"
-                      value={formData.position}
-                      onChange={(e) =>
-                        setFormData({ ...formData, position: e.target.value })
-                      }
-                    >
-                      <option>-- SELECT POSITION -- </option>
-                      {positions.map((position) => (
-                        <option key={position._id} value={position.name}>
-                          {" "}
-                          {position.name}{" "}
-                        </option>
-                      ))}{" "}
-                    </select>
-                  </div>
                   <div className="form-group">
                     <label>Candidate Name</label>
                     <input
@@ -353,6 +315,56 @@ const Candidates = () => {
                     />
                   </div>
                   <div className="form-group">
+                    <label> Position</label>
+                    <select
+                      className="form-control"
+                      value={formData.position}
+                      onChange={(e) =>
+                        handleChange(e)
+                      }
+                    >
+                      <option>-- SELECT POSITION --</option>
+                      {positions.map((position) => (
+                        <option key={position._id} value={position.name}>
+                          {" "}
+                          {position.name}{" "}
+                        </option>
+                      ))}{" "}
+                    </select>
+                  </div>
+                  <div className="form-group">
+                    <label> State</label>
+                    <select
+                      className="form-control"
+                      value={formData.state}
+                      onChange={(e) => toggleLGA(e.target.value)}
+                    >
+                      {allStates.map((state, index) => (
+                        <option value={state} key={index}>
+                          {state}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="form-group lga d-none">
+                    <label> Constituency</label>
+                    <select
+                      name="lga"
+                      id="lga"
+                      className="form-control select-lga"
+                      value={formData.lga}
+                      onChange={(e) =>
+                        setFormData({...formData, lga: e.target.value})
+                      }
+                    >
+                      {lgas.map((lga, index) => (
+                        <option value={lga} key={index}>
+                          {lga}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="form-group">
                     <label>Candidate Photo</label>
                     <input
                       type="file"
@@ -363,7 +375,8 @@ const Candidates = () => {
                   </div>
                   <div className="modal-footer">
                     {formData.isEdit ? (
-                      <button type="submit" className="btn btn-success" onClick={(e) => handleCandidateEdit(e, formData.id)}>
+                      <button type="submit" className="btn btn-success"
+                              onClick={(e) => handleCandidateEdit(e, formData.id)}>
                         {!formData.isLoading
                           ? "Edit Candidate"
                           : "Editing Candidate..."}
@@ -374,7 +387,7 @@ const Candidates = () => {
                           ? "Add Candidate"
                           : "Adding Candidate..."}
                       </button>
-                    ) }
+                    )}
                   </div>
                 </form>
               </div>
