@@ -28,7 +28,6 @@ const updateCandidate = createAsyncThunk(
 const deleteCandidate = createAsyncThunk(
   "candidates/deleteCandidate",
   async ({id}) => {
-    console.log(id)
     await axios.delete(`${baseUrl}/politician/${id}`)
     return id
   }
