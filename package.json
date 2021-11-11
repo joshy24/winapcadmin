@@ -1,5 +1,6 @@
 {
   "name": "win-apc-admin",
+  "homepage": "http://winapcadmin.mdatasolutions.com.ng",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
