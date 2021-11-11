@@ -213,6 +213,7 @@ const Candidates = () => {
                     <th>Name</th>
                     <th>Position</th>
                     <th>State</th>
+                    <th>Constituency</th>
                     <th>LGA</th>
                     <th className="text-center">Action</th>
                   </tr>
